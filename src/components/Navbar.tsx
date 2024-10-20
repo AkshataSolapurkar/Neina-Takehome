@@ -1,11 +1,10 @@
+"use client"
 // components/Navbar.tsx
 import { useAuth } from '../context/AuthContext';
-import { useState, useEffect } from 'react';
 
 const Navbar = () => {
-  const { fetchUserData } = useAuth();
-  const { user, logout } = useAuth();
-  const [error, setError] = useState('')
+  const { user, logout } = useAuth()
+  console.log(user, "here is user")
  
   console.log(user)
   return (
