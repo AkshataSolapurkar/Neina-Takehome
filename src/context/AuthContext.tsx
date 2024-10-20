@@ -19,7 +19,7 @@ interface AuthContextType {
   register: (userData: Omit<User, 'id'> & { password: string }) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
-  fetchUserData: (token: string) => Promise<void>; 
+  setUser: any; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,28 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetchUserData(token);
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
-  const fetchUserData = async (token: string) => {
-    try {
-      const response = await API.post('/user/v1/get-users-info', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUser(response.data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      logout();
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
 
   const login = async (username: string, password: string) => {
@@ -86,7 +65,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isLoading, fetchUserData }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading, setUser }}>
       {children}
     </AuthContext.Provider>
   );
