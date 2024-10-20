@@ -10,7 +10,6 @@ const page = () => {
     (async () => {
       try {
         const data = await fetchUserData(); 
-        console.log(data.data.data);
         setUser(data?.data.data)
       } catch (error) {
         console.error(error);
